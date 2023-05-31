@@ -1,0 +1,19 @@
+mysql:
+  dbuser: "root"
+  dbhost: "127.0.0.1"
+  dbport: 3306
+  dbpassword: "Ubuntu@123"
+  dbname: "ums_go"
+
+ldap:
+  ldaphost: "localhost"
+  ldapport: 389
+  ldapuser: "user"
+  ldappass: "pass"
+  ldapgroup: "group"
+
+jwt:
+  signing-key: ums
+  expires-time: 7
+  buffer-time: 1
+  issuer: ums
