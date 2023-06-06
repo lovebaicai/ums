@@ -18,5 +18,6 @@ func InitUserRouter(Router *gin.RouterGroup) {
 		userRouter.POST("changeUserStatus", api.ChangeUserStatus)
 		userRouter.POST("getExistUser", api.GetExistUser)
 		userRouter.POST("resetPassword", api.ResetPassword)
+		userRouter.GET("getUserTotal", api.GetUserTotal)
 	}
 }

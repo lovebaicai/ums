@@ -2,7 +2,6 @@ package service
 
 import (
 	"errors"
-	"log"
 
 	"ums_backend/global"
 	"ums_backend/model/system"
@@ -14,7 +13,7 @@ import (
 
 func Login(u *system.SysUser) (userInter *system.SysUser, err error) {
 	var user system.SysUser
-	err = global.GVA_DB.Where("username = ?", u.Username).First(&user).Error
+	err = global.GVA_DB.Model(system.SysUser{}).Where("username = ?", u.Username).First(&user).Error
 	return &user, err
 }
 
@@ -22,7 +21,6 @@ func GetUserInfo(UUID uuid.UUID) (user system.SysUser, err error) {
 	var userInfo system.SysUser
 	err = global.GVA_DB.First(&userInfo, "UUID = ?", UUID).Error
 	if err != nil {
-		log.Println(err)
 		return
 	}
 	return userInfo, err
@@ -68,7 +66,6 @@ func ChangeUserStatus(id int) (err error) {
 	var status int
 	err = global.GVA_DB.First(&userInfo, "id = ?", id).Error
 	if err != nil {
-		log.Println(err)
 		return
 	}
 	if userInfo.Status == 0 {
@@ -82,6 +79,15 @@ func ChangeUserStatus(id int) (err error) {
 	err = global.GVA_DB.Model(system.SysUser{}).Where("id = ?", id).Update("status", status).Error
 	if err != nil {
 		return err
+	}
+	return
+}
+
+func GetUserTotal() (total int64, err error) {
+	// var userInfo system.SysUser
+	err = global.GVA_DB.Model(system.SysUser{}).Where("status = ?", 1).Count(&total).Error
+	if err != nil {
+		return
 	}
 	return
 }

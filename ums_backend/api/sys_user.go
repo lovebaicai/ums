@@ -152,3 +152,7 @@ func ResetPassword(c *gin.Context) {
 		response.OkWithMessage("ok", c)
 	}
 }
+
+func GetUserTotal(c *gin.Context) {
+	response.OkWithMessage("ok", c)
+}
