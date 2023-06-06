@@ -69,3 +69,10 @@ export function syncUser() {
     method: 'get'
   })
 }
+
+export function getUserTotal() {
+  return request({
+    url: '/user/getUserTotal',
+    method: 'get'
+  })
+}
