@@ -70,10 +70,6 @@ func ChangeUserStatus(c *gin.Context) {
 	}
 }
 
-// func ResetPassword(c *gin.Context) {
-// 	return
-// }
-
 // GetUserList
 // @Description 获取用户列表
 func GetUserList(c *gin.Context) {
@@ -104,12 +100,7 @@ func AddUser(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	//var authorities []system.ServiceType
-	//for _, v := range r.AuthorityIds {
-	//	authorities = append(authorities, system.SysAuthority{
-	//		AuthorityId: v,
-	//	})
-	//}
+
 	user := &system.SysUser{Username: r.Username, CNname: r.CNname, Email: r.Email}
 	// service.AddLDAPUser(r.Username)
 	_, err := service.AddUser(*user, false)
@@ -154,5 +145,19 @@ func ResetPassword(c *gin.Context) {
 }
 
 func GetUserTotal(c *gin.Context) {
+	info, err := service.GetUserTotal()
+	if err != nil {
+		response.FailWithMessage("获取失败", c)
+	} else {
+		response.OkWithDetailed(response.UserTotalResponse{
+			Total:        info.Total,
+			EnableTotal:  info.EnableTotal,
+			DisableTotal: info.DisableTotal,
+			GroupTotal:   info.GroupTotal,
+		}, "获取成功", c)
+	}
+}
+
+func LogOut(c *gin.Context) {
 	response.OkWithMessage("ok", c)
 }
