@@ -2,7 +2,7 @@ package api
 
 import (
 	"ums_backend/global"
-	"ums_backend/model/system"
+	system "ums_backend/model"
 	"ums_backend/service"
 	"ums_backend/utils"
 	"ums_backend/utils/request"

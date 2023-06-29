@@ -8,7 +8,7 @@ import (
 
 	"ums_backend/global"
 	"ums_backend/initialize"
-	"ums_backend/model/system"
+	system "ums_backend/model"
 
 	ldap "github.com/go-ldap/ldap/v3"
 	"go.uber.org/zap"
@@ -29,6 +29,9 @@ func SyncLdap() (err error) {
 	search, err := ld.Search(searchRequest)
 	if err != nil {
 		fmt.Println("ldap查找失败", err)
+	}
+	for _, entry := range search.Entries {
+		fmt.Printf("%s\n", entry.DN)
 	}
 	for _, entry := range search.Entries {
 		ldapuid, _ := strconv.Atoi(entry.GetAttributeValue("gidNumber"))
@@ -73,7 +76,7 @@ func ModifyPassword(username string) (err error) {
 	ldapgroup := global.GVA_CONFIG.LdapInfo.LGroup
 	ld := initialize.ConnectLDAP()
 	defer ld.Close()
-	passwordModifyRequest2 := ldap.NewPasswordModifyRequest(fmt.Sprintf("uid=%s,%s,dc=com", username, ldapgroup), "", "Uama@123")
+	passwordModifyRequest2 := ldap.NewPasswordModifyRequest(fmt.Sprintf("uid=%s,%s,dc=com", username, ldapgroup), "", "passwd@123")
 	_, err = ld.PasswordModify(passwordModifyRequest2)
 	if err != nil {
 		return err

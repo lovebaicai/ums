@@ -1,8 +1,9 @@
 package global
 
 import (
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type BasicModel struct {
@@ -12,7 +13,4 @@ type BasicModel struct {
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"` // 删除时间
 }
 
-var (
-	GVA_DB *gorm.DB
-	//GVA_DBList map[string]*gorm.DB
-)
+var GVA_DB *gorm.DB

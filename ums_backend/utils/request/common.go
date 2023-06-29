@@ -28,3 +28,10 @@ type Login struct {
 	Username string `json:"username"` // 用户名
 	Password string `json:"password"` // 密码
 }
+
+type UserTotal struct {
+	Total        int64 `json:"total"`
+	GroupTotal   int64 `json:"grouptotal"`
+	EnableTotal  int64 `json:"enabletotal"`
+	DisableTotal int64 `json:"Disabletotal"`
+}

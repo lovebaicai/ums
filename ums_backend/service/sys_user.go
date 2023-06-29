@@ -4,7 +4,8 @@ import (
 	"errors"
 
 	"ums_backend/global"
-	"ums_backend/model/system"
+	system "ums_backend/model"
+	"ums_backend/utils"
 	"ums_backend/utils/request"
 
 	uuid "github.com/satori/go.uuid"
@@ -14,6 +15,11 @@ import (
 func Login(u *system.SysUser) (userInter *system.SysUser, err error) {
 	var user system.SysUser
 	err = global.GVA_DB.Model(system.SysUser{}).Where("username = ?", u.Username).First(&user).Error
+	if err == nil {
+		if ok := utils.BcryptCheck(u.Password, user.Password); !ok {
+			return nil, errors.New("密码错误")
+		}
+	}
 	return &user, err
 }
 
@@ -83,11 +89,19 @@ func ChangeUserStatus(id int) (err error) {
 	return
 }
 
-func GetUserTotal() (total int64, err error) {
-	// var userInfo system.SysUser
-	err = global.GVA_DB.Model(system.SysUser{}).Where("status = ?", 1).Count(&total).Error
+func GetUserTotal() (info request.UserTotal, err error) {
+	err = global.GVA_DB.Model(system.SysUser{}).Count(&info.Total).Error
 	if err != nil {
 		return
 	}
-	return
+	err = global.GVA_DB.Model(system.SysUser{}).Where("status = ?", 1).Count(&info.EnableTotal).Error
+	if err != nil {
+		return
+	}
+	err = global.GVA_DB.Model(system.SysUser{}).Not("status = ?", 1).Count(&info.DisableTotal).Error
+	if err != nil {
+		return
+	}
+	info.GroupTotal = 2
+	return info, err
 }
