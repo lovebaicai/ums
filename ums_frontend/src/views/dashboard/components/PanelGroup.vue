@@ -9,7 +9,7 @@
           <div class="card-panel-text">
             User Total
           </div>
-          <count-to :start-val="0" :end-val="allJobVal" :duration="3200" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="total" :duration="3200" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -22,7 +22,7 @@
           <div class="card-panel-text">
             Group Total
           </div>
-          <count-to :start-val="0" :end-val="runningJobVal" :duration="3200" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="grouptotal" :duration="3200" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -35,7 +35,7 @@
           <div class="card-panel-text">
             Enable User
           </div>
-          <count-to :start-val="0" :end-val="successJobVal" :duration="3200" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="enabletotal" :duration="3200" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -48,7 +48,7 @@
           <div class="card-panel-text">
             Disable User
           </div>
-          <count-to :start-val="0" :end-val="failJobVal" :duration="3200" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="disabletotal" :duration="3200" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -66,10 +66,10 @@ export default {
   data() {
     return {
       chart: null,
-      allJobVal: 0,
-      runningJobVal: 0,
-      successJobVal: 0,
-      failJobVal: 0
+      total: 0,
+      grouptotal: 0,
+      enabletotal: 0,
+      disabletotal: 0
     }
   },
   created() {
@@ -81,10 +81,10 @@ export default {
     },
     fetchData() {
       getUserTotal().then(response => {
-        this.allJobVal = 1
-        this.runningJobVal = 1
-        this.successJobVal = 1
-        this.failJobVal = 1
+        this.total = response.data.total
+        this.grouptotal = response.data.grouptotal
+        this.enabletotal = response.data.enabletotal
+        this.disabletotal = response.data.disabletotal
       })
     }
   }
