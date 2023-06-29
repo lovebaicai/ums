@@ -73,7 +73,7 @@
       :visible.sync="diglogResetUser"
       append-to-body
     >
-      <span style="color:red">确定要重置用户密码为: Uama@123 吗?</span>
+      <span style="color:red">确定要重置用户密码为 passwd@123 吗?</span>
       <span slot="footer" class="dialog-footer">
         <el-form ref="form" :model="tempUserData">
           <el-form-item>
