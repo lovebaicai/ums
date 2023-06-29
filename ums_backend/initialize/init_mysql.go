@@ -2,13 +2,27 @@ package initialize
 
 import (
 	"fmt"
+	"log"
+	"os"
 
 	"ums_backend/global"
-	system2 "ums_backend/model/system"
+	system2 "ums_backend/model"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
+
+func RegisterTables(db *gorm.DB) {
+	err := db.AutoMigrate(
+		system2.SysUser{},
+		system2.ServiceType{},
+	)
+	if err != nil {
+		log.Println("register table failed")
+		os.Exit(0)
+	}
+	log.Println("register table success")
+}
 
 func ConnectDB() (db *gorm.DB) {
 	dbUser := global.GVA_CONFIG.Mysqlinfo.DBUser
@@ -22,9 +36,6 @@ func ConnectDB() (db *gorm.DB) {
 	if err != nil {
 		panic(err)
 	}
-	err = db.AutoMigrate(&system2.SysUser{}, &system2.ServiceType{})
-	if err != nil {
-		panic(err)
-	}
+	RegisterTables(db)
 	return db
 }
