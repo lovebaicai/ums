@@ -16,6 +16,7 @@ func RegisterTables(db *gorm.DB) {
 	err := db.AutoMigrate(
 		system2.SysUser{},
 		system2.ServiceType{},
+		system2.LdapUser{},
 	)
 	if err != nil {
 		log.Println("register table failed")

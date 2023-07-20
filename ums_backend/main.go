@@ -30,7 +30,7 @@ func main() {
 	if err != nil {
 		return
 	}
-	gin.SetMode(gin.ReleaseMode)
+	// gin.SetMode(gin.ReleaseMode)
 	app := gin.New()
 	mainrouter := app.Group("/api/v1")
 	AddRoutes(mainrouter)

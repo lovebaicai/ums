@@ -2,6 +2,7 @@ package utils
 
 import (
 	"log"
+
 	"ums_backend/global"
 	"ums_backend/utils/request"
 
@@ -19,21 +20,6 @@ func GetClaims(c *gin.Context) (*request.CustomClaims, error) {
 	}
 	return claims, err
 }
-
-// GetUserID 从Gin的Context中获取从jwt解析出来的用户ID
-// func GetUserID(c *gin.Context) uint {
-
-// 	if claims, exists := c.Get("claims"); !exists {
-// 		if cl, err := GetClaims(c); err != nil {
-// 			return 0
-// 		} else {
-// 			return cl.ID
-// 		}
-// 	} else {
-// 		waitUse := claims.(*request.CustomClaims)
-// 		return waitUse.ID
-// 	}
-// }
 
 func GetUserUuid(c *gin.Context) uuid.UUID {
 	if claims, exists := c.Get("claims"); !exists {

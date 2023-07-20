@@ -14,7 +14,6 @@ type SysUser struct {
 	CNname   string    `json:"cnname" gorm:"comment:用户中文名"`
 	Email    string    `json:"email" grom:"comment:用户邮箱"`
 	Status   int       `json:"status" gorm:"用户状态;default:1"`
-	LADPUID  int       `json:"ladpuid" gorm:"comment:ldap uid"`
 	// ServiceID   string        `json:"serviceid" gorm:"commend:用户关联系统ID"`
 	// ServiceType []ServiceType `json:"servicetype" gorm:"foreignKey:ServiceID;comment:关联系统"`
 }

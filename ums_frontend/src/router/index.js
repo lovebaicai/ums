@@ -57,12 +57,31 @@ export const constantRoutes = [
     path: '/user-manager',
     component: Layout,
     redirect: 'noRedirect',
+    alwaysShow: true,
+    name: '用户管理',
+    meta: { title: '用户管理', icon: 'el-icon-set-up' },
     children: [
       {
-        path: '',
-        name: '用户管理',
-        component: () => import('@/views/user-manage/user'),
-        meta: { title: '用户管理', icon: 'el-icon-user-solid' }
+        path: 'ldap-user',
+        name: 'LDAP管理',
+        component: () => import('@/views/ldap-manage/user'),
+        meta: { title: 'LDAP管理', icon: 'el-icon-user-solid' }
+      }
+    ]
+  },
+  {
+    path: '/oms-manage',
+    redirect: 'noRedirect',
+    alwaysShow: true,
+    component: Layout,
+    name: '平台管理',
+    meta: { title: '平台管理', icon: 'el-icon-s-tools' },
+    children: [
+      {
+        path: 'user-manager',
+        name: 'user-manager',
+        component: () => import('@/views/ums-manage/user'),
+        meta: { title: '用户管理', icon: 'el-icon-user' }
       }
     ]
   },
