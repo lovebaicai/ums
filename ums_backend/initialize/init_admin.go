@@ -15,7 +15,6 @@ import (
 func InitAdminUser() (err error) {
 	var user system.SysUser
 	if !errors.Is(global.GVA_DB.Where("username = ?", "admin").First(&user).Error, gorm.ErrRecordNotFound) { // 判断用户名是否注册
-		log.Println("admin已存在.")
 		return
 	} else {
 		user.UUID = uuid.NewV4()
