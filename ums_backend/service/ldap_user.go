@@ -17,7 +17,7 @@ import (
 )
 
 func CheckUserStatus(ldapuid int) (status int) {
-	user_active := 0
+	user_active := 1
 	ld := initialize.ConnectLDAP()
 	filter := fmt.Sprintf("(uidNumber=%d)", ldapuid)
 	searchRequest := ldap.NewSearchRequest(
@@ -36,7 +36,7 @@ func CheckUserStatus(ldapuid int) (status int) {
 		log.Fatal(err)
 	}
 	if len(searchResult.Entries) == 0 {
-		user_active = 1
+		user_active = 2
 	}
 	return user_active
 }
@@ -65,6 +65,7 @@ func SyncLdap() (err error) {
 		result := global.GVA_DB.Model(&user).Where("ladp_uid = ?", ldapuid).First(&users)
 		if result.RowsAffected == 1 {
 			global.GVA_DB.Model(&user).Where("ladp_uid = ?", ldapuid).Update("status", user_active)
+			continue
 		}
 		userinfo := &system.LdapUser{Username: entry.GetAttributeValue("cn"), CNname: entry.GetAttributeValue("displayName"), LADPUID: ldapuid, Status: user_active}
 		_, err = AddLdapUser(*userinfo, true)
@@ -75,18 +76,17 @@ func SyncLdap() (err error) {
 	return
 }
 
-func AddLdapUser(ldap system.LdapUser, ldad_sync bool) (userInter system.LdapUser, err error) {
+func AddLdapUser(ldapInfo system.LdapUser, ldadSync bool) (userInter system.LdapUser, err error) {
 	// 判断增加用户类型
-	if !ldad_sync {
+	if !ldadSync {
 		// 如果不是同步ldap数据, 则查找最后一个增加的ldap用户, 下一个用户的ldapid + 1
-		var userInfo system.LdapUser
-		_ = global.GVA_DB.Last(&userInfo)
-		LdapAdd(ldap.Username, ldap.Email, userInfo.LADPUID+1)
-		ldap.LADPUID = userInfo.LADPUID + 1
+		_ = global.GVA_DB.Last(&ldapInfo)
+		LdapAdd(ldapInfo.Username, ldapInfo.Email, ldapInfo.LADPUID+1)
+		ldapInfo.LADPUID = ldapInfo.LADPUID + 1
 	}
 	// u.UUID = uuid.NewV4()
-	err = global.GVA_DB.Create(&ldap).Error
-	return ldap, err
+	err = global.GVA_DB.Model(&ldapInfo).Create(&ldapInfo).Error
+	return ldapInfo, err
 }
 
 func LdapAdd(username, email string, ldapid int) {
@@ -129,7 +129,7 @@ func ChangeLDAPStatus(username string, status int) (err error) {
 	ld := initialize.ConnectLDAP()
 	defer ld.Close()
 	var old_rn, new_rn string
-	if status == 1 {
+	if status == 2 {
 		old_rn = "Disable"
 		new_rn = "People"
 	} else {
@@ -173,10 +173,10 @@ func ChangeUserStatus(id int) (err error) {
 	if err != nil {
 		return
 	}
-	if userInfo.Status == 0 {
-		status = 1
+	if userInfo.Status == 1 {
+		status = 2
 	} else {
-		status = 0
+		status = 1
 	}
 	if err := ChangeLDAPStatus(userInfo.Username, status); err != nil {
 		return err

@@ -47,12 +47,12 @@
       <el-table-column label="当前状态" align="center" width="200" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-tooltip class="item" effect="dark" content="点击修改状态" placement="top">
-            <el-button v-if="row.status =='1'" size="mini" type="success" @click="changeUserClick(row, '0')">
+            <el-button v-if="row.status =='2'" size="mini" type="success" @click="changeUserClick(row, '1')">
               启用
             </el-button>
           </el-tooltip>
           <el-tooltip class="item" effect="dark" content="点击修改状态" placement="top">
-            <el-button v-if="row.status =='0'" size="mini" type="info" @click="changeUserClick(row, '1')">
+            <el-button v-if="row.status =='1'" size="mini" type="info" @click="changeUserClick(row, '2')">
               禁用
             </el-button>
           </el-tooltip>
