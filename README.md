@@ -23,15 +23,14 @@ cd ums_frontend && npm install --unsafe-perm
 
 - 启动服务
 ```
-一、启动后端服务(debug用)
+一、后端服务(debug用)
 go run main.go
 
 2. supervisord后台启动, 生产使用
 cd ums_backend && make
 supervisorctl restart all
 
-
-三、前端工程
+二、前端工程
 1. 开发debug启动
 npm run dev 
 
