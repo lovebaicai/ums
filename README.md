@@ -1,5 +1,6 @@
 ### ums用户管理平台说明
 - 本平台可对接内部ladp系统，通过web页面对ldap用户进行管理
+- 默认用户: admin, 默认密码: ums@123
 
 ### 一. 依赖环境
 - 开发语言：Golang 1.18.5 + Node.js v10.22.1
@@ -12,7 +13,7 @@
 
 - 安装前端依赖库
 ```
-cd oms_frontend && npm install --unsafe-perm
+cd ums_frontend && npm install --unsafe-perm
 ```
 
 - 安装 Nginx、MySQL、Supervisord、Node.js
@@ -26,7 +27,9 @@ cd oms_frontend && npm install --unsafe-perm
 go run main.go
 
 2. supervisord后台启动, 生产使用
+cd ums_backend && make
 supervisorctl restart all
+
 
 三、前端工程
 1. 开发debug启动
@@ -37,6 +40,7 @@ npm run build:prod
 ```
 
 #### 2. 组件配置
+
 
 - nginx配置：
 ```
