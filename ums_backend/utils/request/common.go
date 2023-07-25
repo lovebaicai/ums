@@ -16,6 +16,13 @@ type Register struct {
 	AuthorityIds []uint `json:"authorityIds"`
 }
 
+type LdapUser struct {
+	Username string `json:"userName"`
+	CNname   string `json:"CNname" gorm:"default:'QMPlusUser'"`
+	Enable   int    `json:"enable"`
+	Email    string `json:"Email"`
+}
+
 type GetById struct {
 	ID int `json:"id" form:"id"` // 主键ID
 }

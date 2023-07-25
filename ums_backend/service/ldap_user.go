@@ -84,7 +84,6 @@ func AddLdapUser(ldapInfo system.LdapUser, ldadSync bool) (userInter system.Ldap
 		LdapAdd(ldapInfo.Username, ldapInfo.Email, ldapInfo.LADPUID+1)
 		ldapInfo.LADPUID = ldapInfo.LADPUID + 1
 	}
-	// u.UUID = uuid.NewV4()
 	err = global.GVA_DB.Model(&ldapInfo).Create(&ldapInfo).Error
 	return ldapInfo, err
 }
@@ -153,7 +152,7 @@ func GetUserInfoList(info request.PageInfo) (list interface{}, total int64, err 
 	if err != nil {
 		return
 	}
-	err = db.Limit(limit).Offset(offset).Not("username = ?", "admin").Find(&userList).Error
+	err = db.Limit(limit).Offset(offset).Find(&userList).Error
 	return userList, total, err
 }
 
@@ -193,11 +192,11 @@ func GetUserTotal() (info request.UserTotal, err error) {
 	if err != nil {
 		return
 	}
-	err = global.GVA_DB.Model(system.LdapUser{}).Where("status = ?", 1).Count(&info.EnableTotal).Error
+	err = global.GVA_DB.Model(system.LdapUser{}).Where("status = ?", 2).Count(&info.EnableTotal).Error
 	if err != nil {
 		return
 	}
-	err = global.GVA_DB.Model(system.LdapUser{}).Not("status = ?", 1).Count(&info.DisableTotal).Error
+	err = global.GVA_DB.Model(system.LdapUser{}).Not("status = ?", 2).Count(&info.DisableTotal).Error
 	if err != nil {
 		return
 	}

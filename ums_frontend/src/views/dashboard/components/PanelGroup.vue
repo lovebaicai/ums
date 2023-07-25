@@ -57,7 +57,7 @@
 
 <script>
 import CountTo from 'vue-count-to'
-import { getUserTotal } from '@/api/user'
+import { getUserTotal } from '@/api/ldap-user'
 
 export default {
   components: {

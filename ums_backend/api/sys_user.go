@@ -9,6 +9,7 @@ import (
 	"ums_backend/utils/response"
 
 	"github.com/gin-gonic/gin"
+	uuid "github.com/satori/go.uuid"
 )
 
 func LoginUser(c *gin.Context) {
@@ -22,9 +23,8 @@ func LoginUser(c *gin.Context) {
 		if user, err := service.Login(u); err != nil {
 			response.FailWithMessage("用户名不存在或者密码错误", c)
 		} else {
-			if user.Status != 1 {
+			if user.Status != 2 {
 				response.FailWithMessage("用户被禁止登录", c)
-				return
 			}
 			TokenNext(c, *user)
 		}
@@ -63,4 +63,67 @@ func GetUserInfo(c *gin.Context) {
 
 func LogOut(c *gin.Context) {
 	response.OkWithMessage("ok", c)
+}
+
+// AddUser
+// @Description 增加系统用户
+func AddSysUser(c *gin.Context) {
+	var r request.Register
+	_ = c.ShouldBindJSON(&r)
+	if err := utils.Verify(r, utils.RegisterVerify); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	user := &system.SysUser{Username: r.Username, CNname: r.CNname, Email: r.Email}
+	user.UUID = uuid.NewV4()
+	user.Password = utils.BcryptHash("ums@123")
+	_, err := service.AddSysUser(*user)
+	if err != nil {
+		response.FailWithMessage("系统用户增加失败", c)
+	} else {
+		response.OkWithDetailed(response.UserInfoResult{
+			Username: r.Username,
+			CNname:   r.CNname,
+			Email:    r.Email,
+		}, "系统用户增加成功", c)
+	}
+}
+
+func GetSysExistUser(c *gin.Context) {
+	var reqInfo request.UserName
+	_ = c.ShouldBindJSON(&reqInfo)
+	if err := service.GetSysExistUser(reqInfo.Username); err != nil {
+		response.OkWithMessage("0", c)
+	} else {
+		response.OkWithMessage("1", c)
+	}
+}
+
+func GetSysUserList(c *gin.Context) {
+	var pageInfo request.PageInfo
+	_ = c.ShouldBindJSON(&pageInfo)
+	if err := utils.Verify(pageInfo, utils.PageInfoVerify); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	if list, total, err := service.GetSysUserList(pageInfo); err != nil {
+		response.FailWithMessage("获取失败", c)
+	} else {
+		response.OkWithDetailed(response.PageResult{
+			List:     list,
+			Total:    total,
+			Page:     pageInfo.Page,
+			PageSize: pageInfo.PageSize,
+		}, "获取成功", c)
+	}
+}
+
+func ResetSysPassword(c *gin.Context) {
+	var reqInfo request.UserName
+	_ = c.ShouldBindJSON(&reqInfo)
+	if err := service.ResetSysPassword(reqInfo.Username); err != nil {
+		response.OkWithMessage("error", c)
+	} else {
+		response.OkWithMessage("ok", c)
+	}
 }

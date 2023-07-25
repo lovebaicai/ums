@@ -121,7 +121,7 @@
 
 <script>
 import moment from 'moment'
-import { getUserList, changeUserStatus, createUser, getExistUser, resetUser, syncUser } from '@/api/user'
+import { getUserList, changeUserStatus, createUser, getExistUser, resetUser, syncUser } from '@/api/ldap-user'
 // import { getRoleList } from '@/api/role'
 
 export default {

@@ -56,24 +56,18 @@ func GetUserList(c *gin.Context) {
 
 // AddUser
 // @Description 增加LDAP用户
-func AddUser(c *gin.Context) {
-	var r request.Register
-	_ = c.ShouldBindJSON(&r)
-	if err := utils.Verify(r, utils.RegisterVerify); err != nil {
-		response.FailWithMessage(err.Error(), c)
-		return
-	}
+func AddLdapUser(c *gin.Context) {
+	var r request.LdapUser
 	user := &system.LdapUser{Username: r.Username, CNname: r.CNname, Email: r.Email}
-	// service.AddLDAPUser(r.Username)
 	_, err := service.AddLdapUser(*user, false)
 	if err != nil {
-		response.FailWithMessage("用户增加失败", c)
+		response.FailWithMessage("ldap用户增加失败", c)
 	} else {
 		response.OkWithDetailed(response.UserInfoResult{
 			Username: r.Username,
 			CNname:   r.CNname,
 			Email:    r.Email,
-		}, "用户增加成功", c)
+		}, "ldap用户增加成功", c)
 	}
 }
 
