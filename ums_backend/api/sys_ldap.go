@@ -22,10 +22,10 @@ func SyncLdap(c *gin.Context) {
 func ChangeUserStatus(c *gin.Context) {
 	var reqInfo request.GetById
 	_ = c.ShouldBindJSON(&reqInfo)
-	if err := utils.Verify(reqInfo, utils.IdVerify); err != nil {
-		response.FailWithMessage(err.Error(), c)
-		return
-	}
+	// if err := utils.Verify(reqInfo, utils.IdVerify); err != nil {
+	// 	response.FailWithMessage(err.Error(), c)
+	// 	return
+	// }
 	if err := service.ChangeUserStatus(reqInfo.ID); err != nil {
 		response.FailWithMessage("更新用户状态失败", c)
 	} else {

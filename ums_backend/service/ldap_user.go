@@ -168,10 +168,6 @@ func GetExistUser(username string) (err error) {
 func ChangeUserStatus(id int) (err error) {
 	var userInfo system.LdapUser
 	var status int
-	err = global.GVA_DB.First(&userInfo, "id = ?", id).Error
-	if err != nil {
-		return
-	}
 	if userInfo.Status == 1 {
 		status = 2
 	} else {

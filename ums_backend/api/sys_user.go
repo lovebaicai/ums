@@ -127,3 +127,13 @@ func ResetSysPassword(c *gin.Context) {
 		response.OkWithMessage("ok", c)
 	}
 }
+
+func ChangeSysUserStatus(c *gin.Context) {
+	var reqInfo request.GetById
+	_ = c.ShouldBindJSON(&reqInfo)
+	if err := service.ChangeSysUserStatus(reqInfo.ID); err != nil {
+		response.FailWithMessage("更新用户状态失败", c)
+	} else {
+		response.OkWithMessage("更新用户状态成功", c)
+	}
+}

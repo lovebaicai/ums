@@ -57,3 +57,11 @@ export function resetUserPassword(data) {
   })
 }
 
+export function changeSysUserStatus(data) {
+  return request({
+    url: '/user/ChangeSysUserStatus',
+    method: 'post',
+    data
+  })
+}
+

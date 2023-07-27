@@ -106,7 +106,7 @@
 
 <script>
 import moment from 'moment'
-import { getUserList, changeUserStatus, createUser, getExistUser, resetUserPassword } from '@/api/sys-user'
+import { getUserList, changeSysUserStatus, createUser, getExistUser, resetUserPassword } from '@/api/sys-user'
 
 export default {
   filters: {
@@ -209,7 +209,7 @@ export default {
       }
     },
     changeUserClick(row, status) {
-      changeUserStatus({ id: row.ID }).then(() => {
+      changeSysUserStatus({ id: row.ID }).then(() => {
         this.$message({
           message: '提交成功',
           type: 'success',

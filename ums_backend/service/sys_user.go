@@ -69,3 +69,18 @@ func ResetSysPassword(username string) (err error) {
 	}
 	return
 }
+
+func ChangeSysUserStatus(id int) (err error) {
+	var userInfo system.SysUser
+	var status int
+	if userInfo.Status == 1 {
+		status = 2
+	} else {
+		status = 1
+	}
+	err = global.GVA_DB.Model(&userInfo).Where("id = ?", id).Update("status", status).Error
+	if err != nil {
+		return err
+	}
+	return
+}

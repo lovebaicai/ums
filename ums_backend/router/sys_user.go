@@ -16,5 +16,6 @@ func InitUserRouter(Router *gin.RouterGroup) {
 		userRouter.POST("AddSysUser", api.AddSysUser)
 		userRouter.POST("getExistUser", api.GetSysExistUser)
 		userRouter.POST("ResetSysPassword", api.ResetSysPassword)
+		userRouter.POST("ChangeSysUserStatus", api.ChangeSysUserStatus)
 	}
 }

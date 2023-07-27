@@ -10,7 +10,7 @@ export function getUserList(data) {
 
 export function changeUserStatus(data) {
   return request({
-    url: '/user/changeUserStatus',
+    url: '/ldap/changeUserStatus',
     method: 'post',
     data
   })
