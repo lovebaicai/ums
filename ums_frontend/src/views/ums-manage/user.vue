@@ -58,9 +58,6 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="420" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-button size="mini" type="primary" @click="editUserButton(row)">
-            权限编辑
-          </el-button>
           <el-button size="mini" type="warning" @click="resetDiglog(row)">
             重置
           </el-button>
@@ -276,33 +273,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-  //  .edit-user-content .el-transfer-panel {
-  //   width: 210px;
-  //   margin-left: 40px;
-  // }
-
-  // .edit-user-content .el-transfer-panel__body {
-  //   height: 450px;
-  // }
-
-  // .edit-user-content .el-transfer-panel__list.is-filterable {
-  //   height: 400px;
-  // }
-
-  // .edit-user-content .el-transfer__buttons {
-  //   width: 80px;
-  //   margin-left: -10px;
-  // }
-
-  // .edit-user-content .el-transfer__button {
-  //   margin-left: 10px;
-  // }
-
-  // .filter-item .el-input__inner {
-  //   height: 36px;
-  //   padding-top: 8px;
-  //   resize: none;
-  // }
-</style>
